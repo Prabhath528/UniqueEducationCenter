@@ -855,6 +855,7 @@
 
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
 
     <script>
         // Import the functions you need from the SDKs you need
@@ -876,23 +877,18 @@
         };
 
         // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const studentCollection = db.collection('students');
     </script>
 
     <script>
-        // --- NEW CONSTANTS FOR FIREBASE ---
+        // --- INITIAL STATE AND CONSTANTS ---
         let students = [];
         let isAdmin = false;
-        const ADMIN_USERNAME = 'Admin12';
-        const ADMIN_PASSWORD = 'Pass@admin14!';
-
-        // The Firebase initialization code from Step 2 MUST be above this script block.
-        // We are using the 'db' constant initialized there.
-        const studentCollection = db.collection('students'); // Reference to your Firestore collection
+        // Note: Hardcoded ADMIN_USERNAME/ADMIN_PASSWORD removed!
 
         // --- UTILITY FUNCTIONS ---
-
         function calculateGrade(marks) {
             if (marks >= 90) return 'A+';
             if (marks >= 80) return 'A';
@@ -902,9 +898,7 @@
             if (marks >= 40) return 'D';
             return 'F';
         }
-
         function updateUI() {
-            // (Keep the original updateUI function content)
             const authBtn = document.getElementById('authBtn');
             const adminElements = document.querySelectorAll('.admin-only');
 
@@ -919,38 +913,73 @@
                 authBtn.classList.add('login-btn');
                 adminElements.forEach(el => el.classList.remove('active'));
             }
-
-            // Re-display students to update 'Action' column visibility
             displayStudents();
         }
 
+        // --- FIREBASE AUTHENTICATION LOGIC ---
 
-        // --- DATA FETCHING (LOADING) ---
-
-        async function loadStudents() {
-            try {
-                // 1. Fetch all documents from the 'students' collection
-                const snapshot = await studentCollection.get();
-
-                // 2. Map the Firestore documents into our local 'students' array
-                students = snapshot.docs.map(doc => ({
-                    id: doc.id, // Use Firestore's document ID as the unique identifier
-                    ...doc.data() // Spread all other fields
-                }));
-
-                displayStudents();
-            } catch (error) {
-                console.error("Error loading students: ", error);
-                alert("Could not load data from the database. See console for details.");
+        function toggleAuth() {
+            if (isAdmin) {
+                firebase.auth().signOut().then(() => {
+                    logout(); // Clear local state
+                }).catch((error) => {
+                    console.error("Error signing out:", error);
+                });
+            } else {
+                document.getElementById('loginScreen').classList.add('active');
             }
         }
 
-        // NOTE: The saveStudents() function is no longer needed since we write directly to Firestore.
+        // Login functionality - USES EMAIL/PASSWORD CREATED IN FIREBASE AUTH
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const email = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorMsg = document.getElementById('errorMsg');
+            errorMsg.textContent = 'Logging in...';
+
+            firebase.auth().signInWithEmailAndPassword(email, password)
+                .then(() => {
+                    document.getElementById('loginScreen').classList.remove('active');
+                    errorMsg.textContent = '';
+                })
+                .catch((error) => {
+                    errorMsg.textContent = 'Login failed. Invalid Email or Password.';
+                });
+        });
+
+        // Listener for auth state changes (automatically sets isAdmin)
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                isAdmin = true;
+                updateUI();
+                document.getElementById('marks').scrollIntoView({ behavior: 'smooth' });
+            } else {
+                isAdmin = false;
+                document.getElementById('username').value = '';
+                document.getElementById('password').value = '';
+                document.getElementById('errorMsg').textContent = '';
+                updateUI();
+            }
+        });
+
+        function logout() {
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('errorMsg').textContent = '';
+        }
+
+        document.getElementById('loginScreen').addEventListener('click', function (e) {
+            if (e.target.id === 'loginScreen') {
+                document.getElementById('loginScreen').classList.remove('active');
+                document.getElementById('errorMsg').textContent = '';
+            }
+        });
 
 
-        // --- DATA ACTIONS (ADDING & DELETING) ---
+        // --- FIREBASE FIRESTORE DATA LOGIC ---
 
-        // Add student
+        // Add student (Writes to Firestore)
         document.getElementById('addStudentForm').addEventListener('submit', async function (e) {
             e.preventDefault();
 
@@ -970,25 +999,39 @@
             };
 
             try {
-                // 3. Write the new document to Firestore. Firestore automatically assigns an ID.
                 await studentCollection.add(newStudent);
                 this.reset();
-                await loadStudents(); // Reload all data to update the table
+                await loadStudents(); // Reload all data
             } catch (error) {
                 console.error("Error adding student: ", error);
                 alert("Failed to add result.");
             }
         });
 
-        // Delete student
+        // Load students (Reads from Firestore)
+        async function loadStudents() {
+            try {
+                const snapshot = await studentCollection.get();
+
+                students = snapshot.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data()
+                }));
+
+                displayStudents();
+            } catch (error) {
+                console.error("Error loading students: ", error);
+            }
+        }
+
+        // Delete student (Admin only - Deletes from Firestore)
         async function deleteStudent(id) {
             if (!isAdmin) return;
 
             if (confirm('Are you sure you want to delete this record?')) {
                 try {
-                    // 4. Delete the document by its Firestore ID
                     await studentCollection.doc(id).delete();
-                    await loadStudents(); // Reload data after deletion
+                    await loadStudents(); // Reload data
                 } catch (error) {
                     console.error("Error deleting student: ", error);
                     alert("Failed to delete record.");
@@ -996,10 +1039,8 @@
             }
         }
 
-        // --- VIEW/DISPLAY FUNCTIONS ---
-
+        // Display students
         function displayStudents(filteredStudents = null) {
-            // (Keep the original displayStudents function content, but note 'student.id' is now the Firestore document ID)
             const tbody = document.getElementById('marksTableBody');
             const studentsToDisplay = filteredStudents || students;
 
@@ -1016,15 +1057,14 @@
         </tr>
     `).join('');
 
-            // Hide/Show the 'Action' header based on admin status
             const actionHeader = document.querySelector('[data-admin-panel="table-header"]');
             if (actionHeader) {
                 actionHeader.style.display = isAdmin ? 'table-cell' : 'none';
             }
         }
 
+        // Filter results
         function filterResults() {
-            // (Keep the original filterResults function content)
             const filterClass = document.getElementById('filterClass').value;
             const filterPlace = document.getElementById('filterPlace').value;
 
@@ -1041,70 +1081,18 @@
             displayStudents(filtered);
         }
 
-
-        // --- INITIALIZATION ---
-
+        // --- INITIAL SETUP ---
         document.addEventListener('DOMContentLoaded', () => {
-            loadStudents(); // <-- Load data from Firebase on startup
+            loadStudents();
             updateUI();
         });
 
-        // ... (Keep toggleAuth, logout, loginForm listener, loginScreen listener, and smooth scrolling functions unchanged) ...
-
-        // Toggles the login modal (or logs out)
-        function toggleAuth() {
-            if (isAdmin) {
-                // Log out
-                logout();
-            } else {
-                // Show login modal
-                document.getElementById('loginScreen').classList.add('active');
-            }
-        }
-
-        // Login functionality
-        document.getElementById('loginForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-
-            if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
-                // Successful login
-                document.getElementById('loginScreen').classList.remove('active');
-                document.getElementById('errorMsg').textContent = '';
-                isAdmin = true;
-                updateUI();
-                // Scroll to admin section for convenience
-                document.getElementById('marks').scrollIntoView({ behavior: 'smooth' });
-            } else {
-                document.getElementById('errorMsg').textContent = 'Invalid username or password';
-            }
-        });
-
-        // Logout functionality
-        function logout() {
-            isAdmin = false;
-            document.getElementById('username').value = '';
-            document.getElementById('password').value = '';
-            document.getElementById('errorMsg').textContent = '';
-            updateUI();
-        }
-
-        // Hide modal when clicking outside
-        document.getElementById('loginScreen').addEventListener('click', function (e) {
-            if (e.target.id === 'loginScreen') {
-                document.getElementById('loginScreen').classList.remove('active');
-                document.getElementById('errorMsg').textContent = ''; // Clear error on close
-            }
-        });
-
-        // Smooth scrolling
+        // Smooth scrolling (Keep this)
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
-                    // Offset scroll for fixed header
                     const headerHeight = document.querySelector('header').offsetHeight;
                     const targetPosition = target.offsetTop - headerHeight;
 
@@ -1115,7 +1103,6 @@
                 }
             });
         });
-
     </script>
 </body>
 
