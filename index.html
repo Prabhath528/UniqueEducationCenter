@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -33,7 +32,7 @@
         /* --- Login Modal/Screen Adjustments --- */
         /* Hide the original login container, we will use a modal */
         .login-container {
-            display: none !important;
+            display: none !important; 
             position: fixed;
             top: 0;
             left: 0;
@@ -53,7 +52,7 @@
             background: white;
             padding: 3rem;
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             width: 100%;
             max-width: 420px;
             animation: slideIn 0.5s ease;
@@ -91,8 +90,7 @@
             border-color: var(--primary);
         }
 
-        .login-btn-submit {
-            /* Renamed to avoid conflict with header button */
+        .login-btn-submit { /* Renamed to avoid conflict with header button */
             width: 100%;
             padding: 1rem;
             background: var(--primary);
@@ -117,10 +115,10 @@
         }
 
         /* --- Main Website --- */
-
+        
         /* The main content is always visible now */
         .main-content {
-            display: block !important;
+            display: block !important; 
         }
 
         header {
@@ -131,7 +129,7 @@
             width: 100%;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
         }
 
         nav {
@@ -147,8 +145,7 @@
             font-size: 1.5rem;
             font-weight: 700;
             letter-spacing: -0.5px;
-            white-space: nowrap;
-            /* Keep logo on one line */
+            white-space: nowrap; /* Keep logo on one line */
         }
 
         .nav-links {
@@ -179,22 +176,19 @@
             transition: background 0.3s;
         }
 
-        .login-btn,
-        .logout-btn {
-            background: var(--primary);
-            /* Login color */
+        .login-btn, .logout-btn {
+            background: var(--primary); /* Login color */
             color: white;
         }
-
+        
         .logout-btn {
-            background: #ef4444;
-            /* Logout color */
+            background: #ef4444; /* Logout color */
         }
 
         .login-btn:hover {
             background: var(--secondary);
         }
-
+        
         .logout-btn:hover {
             background: #dc2626;
         }
@@ -255,14 +249,14 @@
             background: white;
             border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
             transition: transform 0.3s, box-shadow 0.3s;
             animation: fadeIn 0.6s ease;
         }
 
         .card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
         }
 
         .card-image {
@@ -333,15 +327,12 @@
             gap: 1.5rem;
             margin-bottom: 4rem;
         }
-
+        
         /* NEW: Link Wrapper Style */
         .grade-card-link {
-            text-decoration: none;
-            /* Remove underline from the anchor tag */
-            color: inherit;
-            /* Inherit text color from body */
-            display: block;
-            /* Make the link take full grid cell space */
+            text-decoration: none; /* Remove underline from the anchor tag */
+            color: inherit; /* Inherit text color from body */
+            display: block; /* Make the link take full grid cell space */
         }
 
         .grade-card {
@@ -349,41 +340,33 @@
             padding: 2rem;
             border-radius: 16px;
             text-align: center;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
             transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
-            cursor: pointer;
-            /* Explicitly add cursor pointer for clickability */
+            cursor: pointer; /* Explicitly add cursor pointer for clickability */
         }
 
         .grade-card:hover {
-            transform: translateY(-5px);
-            /* Changed for a lift effect */
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            /* Enhanced shadow on hover */
-            background: var(--light);
-            /* Slight background change on hover */
+            transform: translateY(-5px); /* Changed for a lift effect */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15); /* Enhanced shadow on hover */
+            background: var(--light); /* Slight background change on hover */
         }
-
+        
         .grade-card-content {
-            min-height: 150px;
-            /* Ensure cards are uniform height */
+            min-height: 150px; /* Ensure cards are uniform height */
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            /* Center content vertically */
-            align-items: center;
-            /* Center content horizontally */
+            justify-content: center; /* Center content vertically */
+            align-items: center; /* Center content horizontally */
         }
 
         .grade-card h3 {
-            font-size: 3.5rem;
-            /* Make grade number larger and more prominent */
+            font-size: 3.5rem; /* Make grade number larger and more prominent */
             color: var(--primary);
             margin-bottom: 0.5rem;
             font-weight: 900;
             line-height: 1;
         }
-
+        
         .grade-card p {
             font-size: 1rem;
             color: var(--gray);
@@ -391,10 +374,8 @@
         }
 
         /* Removed list and upload styles as they are no longer needed for these cards */
-        .grade-card-list,
-        .upload-form,
-        .download-link {
-            display: none !important;
+        .grade-card-list, .upload-form, .download-link {
+            display: none !important; 
         }
 
         /* Student Management */
@@ -402,25 +383,24 @@
             background: white;
             border-radius: 16px;
             padding: 2rem;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
             margin-bottom: 2rem;
         }
-
+        
         /* New style for the results section visible to everyone */
         .public-marks-table {
             background: white;
             border-radius: 16px;
             padding: 2rem;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
             margin-bottom: 2rem;
         }
-
+        
         /* Style for the private admin panel */
         .admin-only {
-            display: none;
-            /* Hidden by default */
+            display: none; /* Hidden by default */
         }
-
+        
         .admin-only.active {
             display: block;
         }
@@ -469,13 +449,11 @@
             border-collapse: collapse;
         }
 
-        th,
-        td {
+        th, td {
             padding: 1rem;
             text-align: left;
             border-bottom: 1px solid #e2e8f0;
-            white-space: nowrap;
-            /* Prevent content from wrapping in table cells */
+            white-space: nowrap; /* Prevent content from wrapping in table cells */
         }
 
         th {
@@ -516,7 +494,6 @@
                 opacity: 0;
                 transform: translateY(20px);
             }
-
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -528,7 +505,6 @@
                 opacity: 0;
                 transform: translateY(30px);
             }
-
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -540,7 +516,6 @@
                 opacity: 0;
                 transform: translateY(-50px);
             }
-
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -558,12 +533,12 @@
             .hero h1 {
                 font-size: 2rem;
             }
-
+            
             nav {
                 flex-direction: column;
                 padding: 1rem 2rem;
             }
-
+            
             .logo {
                 margin-bottom: 1rem;
             }
@@ -574,7 +549,7 @@
                 justify-content: center;
                 gap: 0.75rem 1.5rem;
             }
-
+            
             .cards-grid {
                 grid-template-columns: 1fr;
             }
@@ -582,40 +557,36 @@
             .grade-cards {
                 grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             }
-
+            
             .add-student-form {
                 grid-template-columns: 1fr;
             }
-
+            
             .filter-section {
                 justify-content: center;
             }
-
+            
             /* Adjust table for small screens */
             .marks-table table {
-                min-width: 700px;
-                /* Enforce minimum width to prevent squashing */
+                min-width: 700px; /* Enforce minimum width to prevent squashing */
             }
-
-            th,
-            td {
+            
+            th, td {
                 padding: 0.75rem 0.5rem;
             }
-
+            
             .hero {
-                padding-top: 10rem;
-                /* Push down content due to larger header on mobile */
+                padding-top: 10rem; /* Push down content due to larger header on mobile */
             }
         }
-
+        
         @media (max-width: 480px) {
-            .login-box {
+             .login-box {
                 padding: 2rem 1.5rem;
             }
         }
     </style>
 </head>
-
 <body>
     <div class="login-container" id="loginScreen">
         <div class="login-box">
@@ -644,8 +615,7 @@
                     <li><a href="#videos">Videos</a></li>
                     <li><a href="#papers">Papers</a></li>
                     <li><a href="#marks">Results</a></li>
-                    <li><button id="authBtn" class="header-btn login-btn" onclick="toggleAuth()">Admin Login</button>
-                    </li>
+                    <li><button id="authBtn" class="header-btn login-btn" onclick="toggleAuth()">Admin Login</button></li>
                 </ul>
             </nav>
         </header>
@@ -707,22 +677,13 @@
                             <a href="https://youtube.com" class="btn" target="_blank">Watch Now</a>
                         </div>
                     </div>
-                    <div class="card">
-                        <div class="card-image">▶</div>
-                        <div class="card-content">
-                            <h3 class="card-title">Al Fundamentals</h3>
-                            <p class="card-description">Master the basics of algebraic expressions and equations</p>
-                            <a href="https://youtube.com" class="btn" target="_blank">Watch Now</a>
-                        </div>
-                    </div>
                 </div>
             </section>
 
             <div class="promo-banner">
                 <h3>Special Offer: Free Study Materials</h3>
                 <p>Download comprehensive study guides and practice worksheets for all grades</p>
-                <a href="#papers" class="btn" style="background: white; color: #d97706; margin-top: 1rem;">Get
-                    Started</a>
+                <a href="#papers" class="btn" style="background: white; color: #d97706; margin-top: 1rem;">Get Started</a>
             </div>
 
             <section id="papers">
@@ -736,7 +697,7 @@
                             </div>
                         </div>
                     </a>
-
+                    
                     <a href="grade-7.html" class="grade-card-link">
                         <div class="grade-card">
                             <div class="grade-card-content">
@@ -745,7 +706,7 @@
                             </div>
                         </div>
                     </a>
-
+                    
                     <a href="grade-8.html" class="grade-card-link">
                         <div class="grade-card">
                             <div class="grade-card-content">
@@ -754,7 +715,7 @@
                             </div>
                         </div>
                     </a>
-
+                    
                     <a href="grade-9.html" class="grade-card-link">
                         <div class="grade-card">
                             <div class="grade-card-content">
@@ -763,7 +724,7 @@
                             </div>
                         </div>
                     </a>
-
+                    
                     <a href="grade-10.html" class="grade-card-link">
                         <div class="grade-card">
                             <div class="grade-card-content">
@@ -772,7 +733,7 @@
                             </div>
                         </div>
                     </a>
-
+                    
                     <a href="grade-11.html" class="grade-card-link">
                         <div class="grade-card">
                             <div class="grade-card-content">
@@ -786,7 +747,7 @@
 
             <section id="marks">
                 <h2 class="section-title">Student Performance Results</h2>
-
+                
                 <div class="admin-only" id="adminManagement">
                     <div class="management-panel">
                         <h3 style="margin-bottom: 1.5rem; color: var(--dark);">Add New Student Result</h3>
@@ -807,8 +768,7 @@
                                 <option value="Maduruketiya">Maduruketiya</option>
                             </select>
                             <input type="text" id="studentSubject" placeholder="Subject" required>
-                            <input type="number" id="studentMarks" placeholder="Marks (0-100)" min="0" max="100"
-                                required>
+                            <input type="number" id="studentMarks" placeholder="Marks (0-100)" min="0" max="100" required>
                             <button type="submit" class="btn">Add Student</button>
                         </form>
                     </div>
@@ -832,7 +792,7 @@
                             <option value="Maduruketiya">Maduruketiya</option>
                         </select>
                     </div>
-
+                    
                     <div class="marks-table">
                         <table>
                             <thead>
@@ -861,42 +821,115 @@
         </footer>
     </div>
 
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-
     <script>
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "firebase/app";
-        import { getAnalytics } from "firebase/analytics";
-        // TODO: Add SDKs for Firebase products that you want to use
-        // https://firebase.google.com/docs/web/setup#available-libraries
-
-        // Your web app's Firebase configuration
-        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-        const firebaseConfig = {
-            apiKey: "AIzaSyBZFghGdk3uf-Qt7ClrNk9U09qPItgIhJs",
-            authDomain: "unique-education-center-testv.firebaseapp.com",
-            projectId: "unique-education-center-testv",
-            storageBucket: "unique-education-center-testv.firebasestorage.app",
-            messagingSenderId: "734587216068",
-            appId: "1:734587216068:web:5957e5fa92a9375f926991",
-            measurementId: "G-F50LYETJDJ"
-        };
-
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-        const studentCollection = db.collection('students');
-    </script>
-
-    <script>
-        // --- INITIAL STATE AND CONSTANTS ---
         let students = [];
         let isAdmin = false;
-        // Note: Hardcoded ADMIN_USERNAME/ADMIN_PASSWORD removed!
+        const ADMIN_USERNAME = 'Admin12';
+        const ADMIN_PASSWORD = 'Pass@admin14!';
 
-        // --- UTILITY FUNCTIONS ---
+        // Function to update UI based on admin status
+        function updateUI() {
+            const authBtn = document.getElementById('authBtn');
+            const adminElements = document.querySelectorAll('.admin-only');
+            
+            if (isAdmin) {
+                // Admin is logged in
+                authBtn.textContent = 'Logout';
+                authBtn.classList.remove('login-btn');
+                authBtn.classList.add('logout-btn');
+                
+                // Show all admin-only elements
+                adminElements.forEach(el => el.classList.add('active'));
+
+            } else {
+                // Not logged in
+                authBtn.textContent = 'Admin Login';
+                authBtn.classList.remove('logout-btn');
+                authBtn.classList.add('login-btn');
+                
+                // Hide all admin-only elements
+                adminElements.forEach(el => el.classList.remove('active'));
+            }
+            
+            // Re-display students to update 'Action' column visibility
+            displayStudents();
+        }
+
+        // Toggles the login modal (or logs out)
+        function toggleAuth() {
+            if (isAdmin) {
+                // Log out
+                logout();
+            } else {
+                // Show login modal
+                document.getElementById('loginScreen').classList.add('active');
+            }
+        }
+
+        // Login functionality
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+                // Successful login
+                document.getElementById('loginScreen').classList.remove('active');
+                document.getElementById('errorMsg').textContent = '';
+                isAdmin = true;
+                updateUI();
+                loadStudents();
+                // Scroll to admin section for convenience
+                document.getElementById('marks').scrollIntoView({ behavior: 'smooth' });
+            } else {
+                document.getElementById('errorMsg').textContent = 'Invalid username or password';
+            }
+        });
+
+        // Logout functionality
+        function logout() {
+            isAdmin = false;
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('errorMsg').textContent = '';
+            updateUI();
+        }
+        
+        // Hide modal when clicking outside
+        document.getElementById('loginScreen').addEventListener('click', function(e) {
+            if (e.target.id === 'loginScreen') {
+                document.getElementById('loginScreen').classList.remove('active');
+                document.getElementById('errorMsg').textContent = ''; // Clear error on close
+            }
+        });
+
+        // Add student
+        document.getElementById('addStudentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!isAdmin) {
+                 alert('You must be logged in as an Admin to add results.');
+                 return;
+            }
+            
+            const student = {
+                id: Date.now(),
+                name: document.getElementById('studentName').value,
+                class: document.getElementById('studentClass').value,
+                place: document.getElementById('studentPlace').value,
+                subject: document.getElementById('studentSubject').value,
+                marks: parseInt(document.getElementById('studentMarks').value),
+                grade: calculateGrade(parseInt(document.getElementById('studentMarks').value)),
+                date: new Date().toLocaleDateString('en-GB')
+            };
+            
+            students.push(student);
+            saveStudents();
+            displayStudents();
+            this.reset();
+        });
+
+        // Calculate grade
         function calculateGrade(marks) {
             if (marks >= 90) return 'A+';
             if (marks >= 80) return 'A';
@@ -906,165 +939,26 @@
             if (marks >= 40) return 'D';
             return 'F';
         }
-        function updateUI() {
-            const authBtn = document.getElementById('authBtn');
-            const adminElements = document.querySelectorAll('.admin-only');
-
-            if (isAdmin) {
-                authBtn.textContent = 'Logout';
-                authBtn.classList.remove('login-btn');
-                authBtn.classList.add('logout-btn');
-                adminElements.forEach(el => el.classList.add('active'));
-            } else {
-                authBtn.textContent = 'Admin Login';
-                authBtn.classList.remove('logout-btn');
-                authBtn.classList.add('login-btn');
-                adminElements.forEach(el => el.classList.remove('active'));
-            }
-            displayStudents();
-        }
-
-        // --- FIREBASE AUTHENTICATION LOGIC ---
-
-        function toggleAuth() {
-            if (isAdmin) {
-                firebase.auth().signOut().then(() => {
-                    logout(); // Clear local state
-                }).catch((error) => {
-                    console.error("Error signing out:", error);
-                });
-            } else {
-                document.getElementById('loginScreen').classList.add('active');
-            }
-        }
-
-        // Login functionality - USES EMAIL/PASSWORD CREATED IN FIREBASE AUTH
-        document.getElementById('loginForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-            const email = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const errorMsg = document.getElementById('errorMsg');
-            errorMsg.textContent = 'Logging in...';
-
-            firebase.auth().signInWithEmailAndPassword(email, password)
-                .then(() => {
-                    document.getElementById('loginScreen').classList.remove('active');
-                    errorMsg.textContent = '';
-                })
-                .catch((error) => {
-                    errorMsg.textContent = 'Login failed. Invalid Email or Password.';
-                });
-        });
-
-        // Listener for auth state changes (automatically sets isAdmin)
-        firebase.auth().onAuthStateChanged((user) => {
-            if (user) {
-                isAdmin = true;
-                updateUI();
-                document.getElementById('marks').scrollIntoView({ behavior: 'smooth' });
-            } else {
-                isAdmin = false;
-                document.getElementById('username').value = '';
-                document.getElementById('password').value = '';
-                document.getElementById('errorMsg').textContent = '';
-                updateUI();
-            }
-        });
-
-        function logout() {
-            document.getElementById('username').value = '';
-            document.getElementById('password').value = '';
-            document.getElementById('errorMsg').textContent = '';
-        }
-
-        document.getElementById('loginScreen').addEventListener('click', function (e) {
-            if (e.target.id === 'loginScreen') {
-                document.getElementById('loginScreen').classList.remove('active');
-                document.getElementById('errorMsg').textContent = '';
-            }
-        });
-
-
-        // --- FIREBASE FIRESTORE DATA LOGIC ---
-
-        // Add student (Writes to Firestore)
-        document.getElementById('addStudentForm').addEventListener('submit', async function (e) {
-            e.preventDefault();
-
-            if (!isAdmin) {
-                alert('You must be logged in as an Admin to add results.');
-                return;
-            }
-
-            const newStudent = {
-                name: document.getElementById('studentName').value,
-                class: document.getElementById('studentClass').value,
-                place: document.getElementById('studentPlace').value,
-                subject: document.getElementById('studentSubject').value,
-                marks: parseInt(document.getElementById('studentMarks').value),
-                grade: calculateGrade(parseInt(document.getElementById('studentMarks').value)),
-                date: new Date().toLocaleDateString('en-GB')
-            };
-
-            try {
-                await studentCollection.add(newStudent);
-                this.reset();
-                await loadStudents(); // Reload all data
-            } catch (error) {
-                console.error("Error adding student: ", error);
-                alert("Failed to add result.");
-            }
-        });
-
-        // Load students (Reads from Firestore)
-        async function loadStudents() {
-            try {
-                const snapshot = await studentCollection.get();
-
-                students = snapshot.docs.map(doc => ({
-                    id: doc.id,
-                    ...doc.data()
-                }));
-
-                displayStudents();
-            } catch (error) {
-                console.error("Error loading students: ", error);
-            }
-        }
-
-        // Delete student (Admin only - Deletes from Firestore)
-        async function deleteStudent(id) {
-            if (!isAdmin) return;
-
-            if (confirm('Are you sure you want to delete this record?')) {
-                try {
-                    await studentCollection.doc(id).delete();
-                    await loadStudents(); // Reload data
-                } catch (error) {
-                    console.error("Error deleting student: ", error);
-                    alert("Failed to delete record.");
-                }
-            }
-        }
 
         // Display students
         function displayStudents(filteredStudents = null) {
             const tbody = document.getElementById('marksTableBody');
             const studentsToDisplay = filteredStudents || students;
-
+            
             tbody.innerHTML = studentsToDisplay.map(student => `
-        <tr>
-            <td>${student.name}</td>
-            <td>${student.class}</td>
-            <td>${student.place}</td>
-            <td>${student.subject}</td>
-            <td>${student.marks}/100</td>
-            <td><strong>${student.grade}</strong></td>
-            <td>${student.date}</td>
-            ${isAdmin ? `<td><button class="delete-btn" onclick="deleteStudent('${student.id}')">Delete</button></td>` : ''}
-        </tr>
-    `).join('');
-
+                <tr>
+                    <td>${student.name}</td>
+                    <td>${student.class}</td>
+                    <td>${student.place}</td>
+                    <td>${student.subject}</td>
+                    <td>${student.marks}/100</td>
+                    <td><strong>${student.grade}</strong></td>
+                    <td>${student.date}</td>
+                    ${isAdmin ? `<td><button class="delete-btn" onclick="deleteStudent(${student.id})">Delete</button></td>` : ''}
+                </tr>
+            `).join('');
+            
+            // Hide/Show the 'Action' header based on admin status
             const actionHeader = document.querySelector('[data-admin-panel="table-header"]');
             if (actionHeader) {
                 actionHeader.style.display = isAdmin ? 'table-cell' : 'none';
@@ -1075,35 +969,63 @@
         function filterResults() {
             const filterClass = document.getElementById('filterClass').value;
             const filterPlace = document.getElementById('filterPlace').value;
-
+            
             let filtered = students;
-
+            
             if (filterClass) {
                 filtered = filtered.filter(s => s.class === filterClass);
             }
-
+            
             if (filterPlace) {
                 filtered = filtered.filter(s => s.place === filterPlace);
             }
-
+            
             displayStudents(filtered);
         }
 
-        // --- INITIAL SETUP ---
+        // Delete student (Admin only)
+        function deleteStudent(id) {
+            if (!isAdmin) return;
+            
+            if (confirm('Are you sure you want to delete this record?')) {
+                students = students.filter(s => s.id !== id);
+                saveStudents();
+                filterResults();
+            }
+        }
+
+        // Save to memory (placeholder)
+        function saveStudents() {
+            // Data is stored in memory during session
+        }
+
+        // Load students (on page load and successful admin login)
+        function loadStudents() {
+            // Initial dummy data for viewing
+             students = [
+                {id: 1, name: 'A. Perera', class: 'Grade 10', place: 'Ethimale', subject: 'Pure Math', marks: 85, grade: 'A', date: '20/11/2024'},
+                {id: 2, name: 'B. Silva', class: 'Grade 9', place: 'Maduruketiya', subject: 'Maths', marks: 55, grade: 'C', date: '15/11/2024'},
+                {id: 3, name: 'C. De Soyza', class: 'Grade 6', place: 'Ethimale', subject: 'Maths', marks: 92, grade: 'A+', date: '22/11/2024'},
+            ];
+            displayStudents();
+        }
+        
+        // Initial setup on page load
         document.addEventListener('DOMContentLoaded', () => {
-            loadStudents();
-            updateUI();
+             loadStudents();
+             updateUI(); // Set initial state (not logged in)
         });
 
-        // Smooth scrolling (Keep this)
+        // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
+                    // Offset scroll for fixed header
                     const headerHeight = document.querySelector('header').offsetHeight;
                     const targetPosition = target.offsetTop - headerHeight;
-
+                    
                     window.scrollTo({
                         top: targetPosition,
                         behavior: 'smooth'
@@ -1113,5 +1035,4 @@
         });
     </script>
 </body>
-
 </html>
