@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unique Education Center | Teacher Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --secondary: #4f46e5;
+            --accent: #818cf8;
+            --dark: #0f172a;
+            --light: #f1f5f9;
+            --gray: #64748b;
+            --success: #10b981;
+            --warning: #f59e0b;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: var(--light);
+        }
+
+        /* --- Login Modal/Screen Adjustments --- */
+        /* Hide the original login container, we will use a modal */
+        .login-container {
+            display: none !important;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-container.active {
+            display: flex !important;
+        }
+
+        .login-box {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 420px;
+            animation: slideIn 0.5s ease;
+        }
+
+        .login-box h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--dark);
+            font-size: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.875rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .login-btn-submit {
+            /* Renamed to avoid conflict with header button */
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .login-btn-submit:hover {
+            background: var(--secondary);
+        }
+
+        .error-msg {
+            color: #ef4444;
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        /* --- Main Website --- */
+
+        /* The main content is always visible now */
+        .main-content {
+            display: block !important;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--dark), #1e293b);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            white-space: nowrap;
+            /* Keep logo on one line */
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        /* General button styling for header login/logout */
+        .header-btn {
+            padding: 0.5rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            border: none;
+            transition: background 0.3s;
+        }
+
+        .login-btn,
+        .logout-btn {
+            background: var(--primary);
+            /* Login color */
+            color: white;
+        }
+
+        .logout-btn {
+            background: #ef4444;
+            /* Logout color */
+        }
+
+        .login-btn:hover {
+            background: var(--secondary);
+        }
+
+        .logout-btn:hover {
+            background: #dc2626;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--dark), #1e293b);
+            color: white;
+            padding: 8rem 2rem 4rem;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            animation: fadeInUp 0.8s ease 0.2s backwards;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            color: var(--dark);
+            position: relative;
+            font-weight: 700;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: var(--primary);
+            margin: 1rem auto;
+            border-radius: 2px;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            animation: fadeIn 0.6s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        .card-description {
+            color: var(--gray);
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .btn:hover {
+            background: var(--secondary);
+        }
+
+        .promo-banner {
+            background: linear-gradient(135deg, var(--warning), #d97706);
+            color: white;
+            padding: 3rem;
+            border-radius: 16px;
+            text-align: center;
+            margin: 4rem 0;
+            box-shadow: 0 10px 40px rgba(245, 158, 11, 0.3);
+        }
+
+        .promo-banner h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Grade Cards - Updated for Papers */
+        .grade-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        /* NEW: Link Wrapper Style */
+        .grade-card-link {
+            text-decoration: none;
+            /* Remove underline from the anchor tag */
+            color: inherit;
+            /* Inherit text color from body */
+            display: block;
+            /* Make the link take full grid cell space */
+        }
+
+        .grade-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+            cursor: pointer;
+            /* Explicitly add cursor pointer for clickability */
+        }
+
+        .grade-card:hover {
+            transform: translateY(-5px);
+            /* Changed for a lift effect */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            /* Enhanced shadow on hover */
+            background: var(--light);
+            /* Slight background change on hover */
+        }
+
+        .grade-card-content {
+            min-height: 150px;
+            /* Ensure cards are uniform height */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            /* Center content vertically */
+            align-items: center;
+            /* Center content horizontally */
+        }
+
+        .grade-card h3 {
+            font-size: 3.5rem;
+            /* Make grade number larger and more prominent */
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-weight: 900;
+            line-height: 1;
+        }
+
+        .grade-card p {
+            font-size: 1rem;
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        /* Removed list and upload styles as they are no longer needed for these cards */
+        .grade-card-list,
+        .upload-form,
+        .download-link {
+            display: none !important;
+        }
+
+        /* Student Management */
+        .management-panel {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 2rem;
+        }
+
+        /* New style for the results section visible to everyone */
+        .public-marks-table {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 2rem;
+        }
+
+        /* Style for the private admin panel */
+        .admin-only {
+            display: none;
+            /* Hidden by default */
+        }
+
+        .admin-only.active {
+            display: block;
+        }
+
+        .add-student-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .add-student-form input,
+        .add-student-form select {
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+
+        .add-student-form input:focus,
+        .add-student-form select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .filter-section {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-section select {
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+
+        .marks-table {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+            white-space: nowrap;
+            /* Prevent content from wrapping in table cells */
+        }
+
+        th {
+            background: var(--dark);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        .delete-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .delete-btn:hover {
+            background: #dc2626;
+        }
+
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+
+        /* --- Animations (keep them) --- */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* --- Media Queries for Responsiveness (Enhanced) --- */
+        @media (max-width: 900px) {
+            .nav-links {
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            nav {
+                flex-direction: column;
+                padding: 1rem 2rem;
+            }
+
+            .logo {
+                margin-bottom: 1rem;
+            }
+
+            .nav-links {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.75rem 1.5rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .grade-cards {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+
+            .add-student-form {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-section {
+                justify-content: center;
+            }
+
+            /* Adjust table for small screens */
+            .marks-table table {
+                min-width: 700px;
+                /* Enforce minimum width to prevent squashing */
+            }
+
+            th,
+            td {
+                padding: 0.75rem 0.5rem;
+            }
+
+            .hero {
+                padding-top: 10rem;
+                /* Push down content due to larger header on mobile */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-box {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container" id="loginScreen">
+        <div class="login-box">
+            <h2>Admin Login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" class="login-btn-submit">Login</button>
+                <div class="error-msg" id="errorMsg"></div>
+            </form>
+        </div>
+    </div>
+
+    <div class="main-content" id="mainContent">
+        <header>
+            <nav>
+                <div class="logo">Unique Education Center</div>
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#videos">Videos</a></li>
+                    <li><a href="#papers">Papers</a></li>
+                    <li><a href="#marks">Results</a></li>
+                    <li><button id="authBtn" class="header-btn login-btn" onclick="toggleAuth()">Admin Login</button>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+
+        <section class="hero" id="home">
+            <h1>Mathematics Teacher Portal</h1>
+            <p>Manage students, resources, and track performance</p>
+        </section>
+
+        <div class="container">
+            <section id="videos">
+                <h2 class="section-title">Featured Video Lessons</h2>
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-image">▶</div>
+                        <div class="card-content">
+                            <h3 class="card-title">Algebra Fundamentals</h3>
+                            <p class="card-description">Master the basics of algebraic expressions and equations</p>
+                            <a href="https://youtube.com" class="btn" target="_blank">Watch Now</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-image">▶</div>
+                        <div class="card-content">
+                            <h3 class="card-title">Calculus Derivatives</h3>
+                            <p class="card-description">Understanding derivatives and their applications</p>
+                            <a href="https://youtube.com" class="btn" target="_blank">Watch Now</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-image">▶</div>
+                        <div class="card-content">
+                            <h3 class="card-title">Geometry Theorems</h3>
+                            <p class="card-description">Explore essential geometry concepts and proofs</p>
+                            <a href="https://youtube.com" class="btn" target="_blank">Watch Now</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-image">▶</div>
+                        <div class="card-content">
+                            <h3 class="card-title">Trigonometry Basics</h3>
+                            <p class="card-description">Learn trigonometric ratios and identities</p>
+                            <a href="https://youtube.com" class="btn" target="_blank">Watch Now</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-image">▶</div>
+                        <div class="card-content">
+                            <h3 class="card-title">Statistics & Probability</h3>
+                            <p class="card-description">Data analysis and probability concepts explained</p>
+                            <a href="https://youtube.com" class="btn" target="_blank">Watch Now</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-image">▶</div>
+                        <div class="card-content">
+                            <h3 class="card-title">Problem Solving Techniques</h3>
+                            <p class="card-description">Advanced strategies for mathematical problems</p>
+                            <a href="https://youtube.com" class="btn" target="_blank">Watch Now</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="promo-banner">
+                <h3>Special Offer: Free Study Materials</h3>
+                <p>Download comprehensive study guides and practice worksheets for all grades</p>
+                <a href="#papers" class="btn" style="background: white; color: #d97706; margin-top: 1rem;">Get
+                    Started</a>
+            </div>
+
+            <section id="papers">
+                <h2 class="section-title">Past Papers & Resources by Grade</h2>
+                <div class="grade-cards">
+                    <a href="grade-6.html" class="grade-card-link">
+                        <div class="grade-card">
+                            <div class="grade-card-content">
+                                <h3>6</h3>
+                                <p>Grade 6 Resources</p>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="grade-7.html" class="grade-card-link">
+                        <div class="grade-card">
+                            <div class="grade-card-content">
+                                <h3>7</h3>
+                                <p>Grade 7 Resources</p>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="grade-8.html" class="grade-card-link">
+                        <div class="grade-card">
+                            <div class="grade-card-content">
+                                <h3>8</h3>
+                                <p>Grade 8 Resources</p>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="grade-9.html" class="grade-card-link">
+                        <div class="grade-card">
+                            <div class="grade-card-content">
+                                <h3>9</h3>
+                                <p>Grade 9 Resources</p>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="grade-10.html" class="grade-card-link">
+                        <div class="grade-card">
+                            <div class="grade-card-content">
+                                <h3>10</h3>
+                                <p>Grade 10 Resources</p>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="grade-11.html" class="grade-card-link">
+                        <div class="grade-card">
+                            <div class="grade-card-content">
+                                <h3>11</h3>
+                                <p>Grade 11 Resources</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <section id="marks">
+                <h2 class="section-title">Student Performance Results</h2>
+
+                <div class="admin-only" id="adminManagement">
+                    <div class="management-panel">
+                        <h3 style="margin-bottom: 1.5rem; color: var(--dark);">Add New Student Result</h3>
+                        <form class="add-student-form" id="addStudentForm">
+                            <input type="text" id="studentName" placeholder="Student Name" required>
+                            <select id="studentClass" required>
+                                <option value="">Select Class</option>
+                                <option value="Grade 6">Grade 6</option>
+                                <option value="Grade 7">Grade 7</option>
+                                <option value="Grade 8">Grade 8</option>
+                                <option value="Grade 9">Grade 9</option>
+                                <option value="Grade 10">Grade 10</option>
+                                <option value="Grade 11">Grade 11</option>
+                            </select>
+                            <select id="studentPlace" required>
+                                <option value="">Select Place</option>
+                                <option value="Ethimale">Ethimale</option>
+                                <option value="Maduruketiya">Maduruketiya</option>
+                            </select>
+                            <input type="text" id="studentSubject" placeholder="Subject" required>
+                            <input type="number" id="studentMarks" placeholder="Marks (0-100)" min="0" max="100"
+                                required>
+                            <button type="submit" class="btn">Add Student</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="public-marks-table">
+                    <h3 style="margin-bottom: 1.5rem; color: var(--dark);">Filter Results</h3>
+                    <div class="filter-section">
+                        <select id="filterClass" onchange="filterResults()">
+                            <option value="">All Classes</option>
+                            <option value="Grade 6">Grade 6</option>
+                            <option value="Grade 7">Grade 7</option>
+                            <option value="Grade 8">Grade 8</option>
+                            <option value="Grade 9">Grade 9</option>
+                            <option value="Grade 10">Grade 10</option>
+                            <option value="Grade 11">Grade 11</option>
+                        </select>
+                        <select id="filterPlace" onchange="filterResults()">
+                            <option value="">All Places</option>
+                            <option value="Ethimale">Ethimale</option>
+                            <option value="Maduruketiya">Maduruketiya</option>
+                        </select>
+                    </div>
+
+                    <div class="marks-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Student Name</th>
+                                    <th>Class</th>
+                                    <th>Place</th>
+                                    <th>Subject</th>
+                                    <th>Marks</th>
+                                    <th>Grade</th>
+                                    <th>Date Added</th>
+                                    <th class="admin-only" data-admin-panel="table-header">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="marksTableBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <footer>
+            <p>Unique Education Center | Admin Panel</p>
+            <p style="margin-top: 0.5rem; opacity: 0.8;">© 2024 All Rights Reserved</p>
+        </footer>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+    <script>
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "firebase/app";
+        import { getAnalytics } from "firebase/analytics";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+            apiKey: "AIzaSyBZFghGdk3uf-Qt7ClrNk9U09qPItgIhJs",
+            authDomain: "unique-education-center-testv.firebaseapp.com",
+            projectId: "unique-education-center-testv",
+            storageBucket: "unique-education-center-testv.firebasestorage.app",
+            messagingSenderId: "734587216068",
+            appId: "1:734587216068:web:5957e5fa92a9375f926991",
+            measurementId: "G-F50LYETJDJ"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+    </script>
+
+    <script>
+        // --- NEW CONSTANTS FOR FIREBASE ---
+        let students = [];
+        let isAdmin = false;
+        const ADMIN_USERNAME = 'Admin12';
+        const ADMIN_PASSWORD = 'Pass@admin14!';
+
+        // The Firebase initialization code from Step 2 MUST be above this script block.
+        // We are using the 'db' constant initialized there.
+        const studentCollection = db.collection('students'); // Reference to your Firestore collection
+
+        // --- UTILITY FUNCTIONS ---
+
+        function calculateGrade(marks) {
+            if (marks >= 90) return 'A+';
+            if (marks >= 80) return 'A';
+            if (marks >= 70) return 'B+';
+            if (marks >= 60) return 'B';
+            if (marks >= 50) return 'C';
+            if (marks >= 40) return 'D';
+            return 'F';
+        }
+
+        function updateUI() {
+            // (Keep the original updateUI function content)
+            const authBtn = document.getElementById('authBtn');
+            const adminElements = document.querySelectorAll('.admin-only');
+
+            if (isAdmin) {
+                authBtn.textContent = 'Logout';
+                authBtn.classList.remove('login-btn');
+                authBtn.classList.add('logout-btn');
+                adminElements.forEach(el => el.classList.add('active'));
+            } else {
+                authBtn.textContent = 'Admin Login';
+                authBtn.classList.remove('logout-btn');
+                authBtn.classList.add('login-btn');
+                adminElements.forEach(el => el.classList.remove('active'));
+            }
+
+            // Re-display students to update 'Action' column visibility
+            displayStudents();
+        }
+
+
+        // --- DATA FETCHING (LOADING) ---
+
+        async function loadStudents() {
+            try {
+                // 1. Fetch all documents from the 'students' collection
+                const snapshot = await studentCollection.get();
+
+                // 2. Map the Firestore documents into our local 'students' array
+                students = snapshot.docs.map(doc => ({
+                    id: doc.id, // Use Firestore's document ID as the unique identifier
+                    ...doc.data() // Spread all other fields
+                }));
+
+                displayStudents();
+            } catch (error) {
+                console.error("Error loading students: ", error);
+                alert("Could not load data from the database. See console for details.");
+            }
+        }
+
+        // NOTE: The saveStudents() function is no longer needed since we write directly to Firestore.
+
+
+        // --- DATA ACTIONS (ADDING & DELETING) ---
+
+        // Add student
+        document.getElementById('addStudentForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            if (!isAdmin) {
+                alert('You must be logged in as an Admin to add results.');
+                return;
+            }
+
+            const newStudent = {
+                name: document.getElementById('studentName').value,
+                class: document.getElementById('studentClass').value,
+                place: document.getElementById('studentPlace').value,
+                subject: document.getElementById('studentSubject').value,
+                marks: parseInt(document.getElementById('studentMarks').value),
+                grade: calculateGrade(parseInt(document.getElementById('studentMarks').value)),
+                date: new Date().toLocaleDateString('en-GB')
+            };
+
+            try {
+                // 3. Write the new document to Firestore. Firestore automatically assigns an ID.
+                await studentCollection.add(newStudent);
+                this.reset();
+                await loadStudents(); // Reload all data to update the table
+            } catch (error) {
+                console.error("Error adding student: ", error);
+                alert("Failed to add result.");
+            }
+        });
+
+        // Delete student
+        async function deleteStudent(id) {
+            if (!isAdmin) return;
+
+            if (confirm('Are you sure you want to delete this record?')) {
+                try {
+                    // 4. Delete the document by its Firestore ID
+                    await studentCollection.doc(id).delete();
+                    await loadStudents(); // Reload data after deletion
+                } catch (error) {
+                    console.error("Error deleting student: ", error);
+                    alert("Failed to delete record.");
+                }
+            }
+        }
+
+        // --- VIEW/DISPLAY FUNCTIONS ---
+
+        function displayStudents(filteredStudents = null) {
+            // (Keep the original displayStudents function content, but note 'student.id' is now the Firestore document ID)
+            const tbody = document.getElementById('marksTableBody');
+            const studentsToDisplay = filteredStudents || students;
+
+            tbody.innerHTML = studentsToDisplay.map(student => `
+        <tr>
+            <td>${student.name}</td>
+            <td>${student.class}</td>
+            <td>${student.place}</td>
+            <td>${student.subject}</td>
+            <td>${student.marks}/100</td>
+            <td><strong>${student.grade}</strong></td>
+            <td>${student.date}</td>
+            ${isAdmin ? `<td><button class="delete-btn" onclick="deleteStudent('${student.id}')">Delete</button></td>` : ''}
+        </tr>
+    `).join('');
+
+            // Hide/Show the 'Action' header based on admin status
+            const actionHeader = document.querySelector('[data-admin-panel="table-header"]');
+            if (actionHeader) {
+                actionHeader.style.display = isAdmin ? 'table-cell' : 'none';
+            }
+        }
+
+        function filterResults() {
+            // (Keep the original filterResults function content)
+            const filterClass = document.getElementById('filterClass').value;
+            const filterPlace = document.getElementById('filterPlace').value;
+
+            let filtered = students;
+
+            if (filterClass) {
+                filtered = filtered.filter(s => s.class === filterClass);
+            }
+
+            if (filterPlace) {
+                filtered = filtered.filter(s => s.place === filterPlace);
+            }
+
+            displayStudents(filtered);
+        }
+
+
+        // --- INITIALIZATION ---
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadStudents(); // <-- Load data from Firebase on startup
+            updateUI();
+        });
+
+        // ... (Keep toggleAuth, logout, loginForm listener, loginScreen listener, and smooth scrolling functions unchanged) ...
+
+        // Toggles the login modal (or logs out)
+        function toggleAuth() {
+            if (isAdmin) {
+                // Log out
+                logout();
+            } else {
+                // Show login modal
+                document.getElementById('loginScreen').classList.add('active');
+            }
+        }
+
+        // Login functionality
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+                // Successful login
+                document.getElementById('loginScreen').classList.remove('active');
+                document.getElementById('errorMsg').textContent = '';
+                isAdmin = true;
+                updateUI();
+                // Scroll to admin section for convenience
+                document.getElementById('marks').scrollIntoView({ behavior: 'smooth' });
+            } else {
+                document.getElementById('errorMsg').textContent = 'Invalid username or password';
+            }
+        });
+
+        // Logout functionality
+        function logout() {
+            isAdmin = false;
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('errorMsg').textContent = '';
+            updateUI();
+        }
+
+        // Hide modal when clicking outside
+        document.getElementById('loginScreen').addEventListener('click', function (e) {
+            if (e.target.id === 'loginScreen') {
+                document.getElementById('loginScreen').classList.remove('active');
+                document.getElementById('errorMsg').textContent = ''; // Clear error on close
+            }
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    // Offset scroll for fixed header
+                    const headerHeight = document.querySelector('header').offsetHeight;
+                    const targetPosition = target.offsetTop - headerHeight;
+
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+    </script>
+</body>
+
+</html>
